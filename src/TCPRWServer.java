@@ -7,6 +7,11 @@ import java.io.OutputStream;
 import java.net.DatagramPacket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.io.FileOutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.net.InetSocketAddress;
 
 
 public class TCPRWServer {
@@ -95,6 +100,52 @@ public class TCPRWServer {
 		{
 			byte[] buffer = new byte[size];
 			return buffer;
+		}
+		public void WriteJournal(InetSocketAddress isA, String msIn)
+		{
+			try
+			{
+			OutputStream outputStream = new FileOutputStream("data/journal.txt");
+			
+			outputStream.write("Adresse IP:".getBytes());
+			outputStream.write("A faire".getBytes());
+			outputStream.write("    ".getBytes());
+			
+			outputStream.write("Port utilisé:".getBytes());
+			int port = isA.getPort();
+			outputStream.write(new Integer(port).toString().getBytes());
+			outputStream.write("    ".getBytes());
+			
+			outputStream.write("Horodatage:".getBytes());
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+			Calendar cal = Calendar.getInstance();						
+			outputStream.write(dateFormat.format(cal.getTime()).getBytes());
+			outputStream.write("     ".getBytes());
+			
+			outputStream.write("Statut du vote:".getBytes());
+			
+			int id = Integer.parseUnsignedInt(msIn.toString());
+			
+			if ( 0 < id && id > 6)
+			{
+				outputStream.write("Invalide".getBytes());
+			}
+			else
+			{
+				outputStream.write("Valide".getBytes());
+			}
+			
+			outputStream.write("\n".getBytes());
+			
+			outputStream.close();
+			
+			}
+			catch(IOException e)
+			{
+				System.out.println("Erreur ReadVote ");
+				System.out.println(e.getMessage());
+				return;
+			}
 		}
 }
 
