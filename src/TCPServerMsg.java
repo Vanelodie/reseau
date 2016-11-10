@@ -13,14 +13,15 @@ public class TCPServerMsg extends TCPServerBuilder implements Runnable{
 			s.setReceiveBufferSize(size);
 			ss.setReceiveBufferSize(size);
 		
-			//Création des sockets et sockets serveur et connection avec le client
+			//CrÃ©ation des sockets et sockets serveur et connection avec le client
 			 System.out.println("server connected");
 			 //Lis le contenu du message
 			 s.setSendBufferSize(size);
 			 WriteCandidates(s,size);	
 			 s = ss.accept();
 				s.setReceiveBufferSize(size);
-			 ReadVote(s);
+			 String msIn = ReadVote(s);
+			 WriteJournal(isA, msIn );
 			 s.close();
 			 ss.close() ;
 		 }
