@@ -142,7 +142,7 @@ public class TCPRWServer {
 			}
 			catch(IOException e)
 			{
-				System.out.println("Erreur ReadVote ");
+				System.out.println("Erreur WriteJournal ");
 				System.out.println(e.getMessage());
 				return;
 			}
